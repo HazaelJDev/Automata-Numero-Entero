@@ -5,6 +5,8 @@
  */
 package automata;
 
+import java.awt.Color;
+
 /**
  *
  * @author hazael
@@ -28,10 +30,11 @@ public class Automata extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Simulacion = new javax.swing.JPanel();
         btnEvaluar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        Resultado = new javax.swing.JLabel();
         txtNum = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        Diagrama = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,36 +43,43 @@ public class Automata extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout SimulacionLayout = new javax.swing.GroupLayout(Simulacion);
-        Simulacion.setLayout(SimulacionLayout);
-        SimulacionLayout.setHorizontalGroup(
-            SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
-        );
-        SimulacionLayout.setVerticalGroup(
-            SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(Simulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 610, 260));
-
         btnEvaluar.setText("Evaluar Cadena");
-        jPanel1.add(btnEvaluar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, -1, -1));
+        btnEvaluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvaluarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEvaluar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, -1, -1));
 
-        jLabel1.setBackground(new java.awt.Color(44, 62, 80));
-        jLabel1.setFont(new java.awt.Font("Laksaman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(236, 240, 241));
-        jLabel1.setText("Ingresa un numero:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, -1, -1));
+        Resultado.setBackground(new java.awt.Color(44, 62, 80));
+        Resultado.setFont(new java.awt.Font("Laksaman", 3, 18)); // NOI18N
+        Resultado.setForeground(new java.awt.Color(0, 255, 102));
+        Resultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(Resultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 560, 60));
 
         txtNum.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNum.setText("Positivo o negativo");
+        txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNumFocusGained(evt);
+            }
+        });
         txtNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNumActionPerformed(evt);
             }
         });
         jPanel1.add(txtNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, 170, 30));
+
+        jLabel2.setBackground(new java.awt.Color(44, 62, 80));
+        jLabel2.setFont(new java.awt.Font("Laksaman", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Ingresa un número:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
+
+        Diagrama.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/AutomataNumEntero.jpg"))); // NOI18N
+        Diagrama.setText("dddd");
+        jPanel1.add(Diagrama, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 450, 260));
 
         fondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/afondo2.jpg"))); // NOI18N
@@ -90,8 +100,28 @@ public class Automata extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtNumActionPerformed
+
+    private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarActionPerformed
+        Grafo a = new Grafo();
+        a.CreateMaxListAdy();
+        String cad = txtNum.getText();
+        //Limpiamos los espacios que el usuario teclee
+        cad = cad.replace(" ","");
+        if(a.RecorrerGrafo(cad)){
+            Resultado.setText("¡La cadena que tecleaste, si es un numero entero!");
+            Resultado.setForeground(Color.green);
+        }else{
+            Resultado.setText("¡La cadena que tecleaste, no es un numero entero!");
+            Resultado.setForeground(Color.red);
+        }
+        
+    }//GEN-LAST:event_btnEvaluarActionPerformed
+
+    private void txtNumFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusGained
+        Resultado.setText(" ");
+    }//GEN-LAST:event_txtNumFocusGained
 
     /**
      * @param args the command line arguments
@@ -130,11 +160,14 @@ public class Automata extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Simulacion;
+    private javax.swing.JLabel Diagrama;
+    private javax.swing.JLabel Resultado;
     private javax.swing.JButton btnEvaluar;
     private javax.swing.JLabel fondo;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtNum;
     // End of variables declaration//GEN-END:variables
 }
+
+
